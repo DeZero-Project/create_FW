@@ -1,0 +1,7 @@
+Implementation Rules:
+ file_name:
+  - dezero: dezero本体を構成するソースファイル
+    example: 実装テストを行うファイル
+    step: 各ステップのファイル(step1 -> ステップ1のソースコード)
+    tests: ユニットテストを行うファイル
+    
