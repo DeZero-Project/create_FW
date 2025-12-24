@@ -1,7 +1,14 @@
 Implementation Rules:
- file_name:
-  - dezero: dezero本体を構成するソースファイル
-    example: 実装テストを行うファイル
-    step: 各ステップのファイル(step1 -> ステップ1のソースコード)
-    tests: ユニットテストを行うファイル
+ folder_name:
+  - dezero: dezero本体を構成するソースフォルダ
+    example: 実装テストを行うフォルダ
+    step: 各ステップごとのファイルを格納したフォルダ
+    tests: ユニットテストを行うフォルダ
+ Function definition rules:
+  - 関数を定義するクラスはFunctionを継承
+    処理は継承した関数内で行う
+    関数は必ずインスタンス化して使用する
+ Variable rulrs:
+  - 変数を使用する際は必ずVariableクラスを使いインスタンス化して使用する
+    変数の中のデータを使う際は必ず.dataでデータを取り出す
     
