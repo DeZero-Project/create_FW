@@ -1,15 +1,19 @@
 name: Python Test CI
 
-# 実行トリガーの設定
 on:
   push:
-    branches: [ "stage1" ]  # mainブランチにプッシュされた時
+    branches: [ "stage1" ]
   pull_request:
-    branches: [ "main" ]  # プルリクエストが作成された時
+    branches: [ "main" ]
+
+# PRへのコメント投稿を許可する設定（カバレッジ報告用）
+permissions:
+  pull-requests: write
+  contents: write
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest  # Linux環境で実行
+    runs-on: ubuntu-latest
 
     steps:
     - name: コードをチェックアウト
@@ -18,15 +22,23 @@ jobs:
     - name: Pythonのセットアップ
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10' # 使用するPythonのバージョン
+        python-version: '3.10'
 
     - name: 依存ライブラリのインストール
       run: |
         python -m pip install --upgrade pip
-        pip install numpy pytest
+        # pytest-cov を追加
+        pip install numpy pytest pytest-cov
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        pip install pytest  # テストツールをインストール
 
-    - name: テストの実行
+    - name: テストの実行とカバレッジ計測
       run: |
-        pytest  # もしunittestなら python -m unittest discover などに変更
+        # カバレッジ結果をファイル(pytest-coverage.txt)に保存しつつ、画面にも表示する
+        pytest --cov=./ --cov-report=term-missing | tee pytest-coverage.txt
+
+    # プルリクエストの時に、カバレッジ結果をコメントとして自動投稿する（任意）
+    - name: カバレッジ結果をPRにコメント
+      if: github.event_name == 'pull_request'
+      uses: MishaKav/pytest-coverage-comment@main
+      with:
+        pytest-coverage-path: ./pytest-coverage.txt
