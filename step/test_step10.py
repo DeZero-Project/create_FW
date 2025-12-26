@@ -35,4 +35,3 @@ class ExpTest(unittest.TestCase):
         num_grad = numerical_diff(exp, x)
         flg = np.allclose(x.grad, num_grad)
         self.assertTrue(flg)
-unittest.main()
