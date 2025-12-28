@@ -34,9 +34,14 @@ class Variable:
             if not isinstance(gxs, tuple):
                 gxs = (gxs,)
             for x, gx in zip(f.inputs, gxs):
-                x.grad = gx
+                if x.grad is None:
+                    x.grad = gx
+                else:
+                    x.grad = x.grad + gx
                 if x.creator is not None:
                     funcs.append(x.creator)
+    def creargrad(self):
+        self.grad = None
 
 class Function:
     def __call__(self, *inputs):
@@ -110,3 +115,13 @@ ys = add(square(x0), square(x1))
 ys.backward()
 print(ys.data)
 print(x0.grad, x1.grad)
+
+x = Variable(np.array(3.0))
+y = add(x, x)
+y.backward()
+print(x.grad)
+
+x.creargrad()
+y = add(add(x, x), x)
+y.backward()
+print(x.grad)
