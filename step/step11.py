@@ -2,7 +2,7 @@
 step11で行う改修型基底クラスの実装
 """
 import numpy as np
-
+import heapq
 class Variable:
     """
     Vriableクラスに与えられたデータの重みを取り出す仕様を追加
@@ -14,6 +14,7 @@ class Variable:
         self.data = data
         self.grad = None
         self.creator = None
+        self.generation = 0
     
     def set_creator(self, func):
         """
@@ -21,14 +22,20 @@ class Variable:
         :param func: 対象の変数を作成した関数名
         """
         self.creator = func
-
+        self.generation = func.generation + 1
     
     def backward(self):
         if self.grad is None:
             self.grad = np.ones_like(self.data)
-        funcs = [self.creator]
+        funcs = []
+        seen_set = set()
+        def add_func(f):
+            if f not in seen_set:
+                heapq.heappush(funcs, (-f.generation, id(f), f))
+                seen_set.add(f)
+        add_func(self.creator)
         while funcs:
-            f = funcs.pop()
+            gen, _id, f = heapq.heappop(funcs)
             gys = [output.grad for output in f.outputs]
             gxs =  f.backward(*gys)
             if not isinstance(gxs, tuple):
@@ -39,18 +46,18 @@ class Variable:
                 else:
                     x.grad = x.grad + gx
                 if x.creator is not None:
-                    funcs.append(x.creator)
+                    add_func(x.creator)
     def creargrad(self):
         self.grad = None
 
-class Function:
+class Function(object):
     def __call__(self, *inputs):
         xs = [x.data for x in inputs]
         ys = self.forward(*xs)
         if not isinstance(ys, tuple):
             ys = (ys,)
         outputs = [Variable(as_array(y))for y in ys]
-        
+        self.generation = max([x.generation for x in inputs])
         for output in outputs:
             output.set_creator(self)
         self.inputs = inputs
@@ -124,4 +131,12 @@ print(x.grad)
 x.creargrad()
 y = add(add(x, x), x)
 y.backward()
+print(x.grad)
+print(ys.generation)
+
+x = Variable(np.array(2.0))
+a = square(x)
+y = add(square(a), square(a))
+y.backward()
+print(y.data)
 print(x.grad)
