@@ -1,6 +1,8 @@
 Implementation Rules:
+<<<<<<< HEAD
  folder_name:
   - dezero: dezero本体を構成するソースフォルダ
+<<<<<<< HEAD
     example: 実装テストを行うフォルダ    
     tests: ユニットテストを行うフォルダ
     docs: 
@@ -10,6 +12,12 @@ Implementation Rules:
        stage: 各ステージごとの修正設計書を格納したフォルダ
       test: test仕様書を保管
       
+=======
+    example: 実装テストを行うフォルダ
+    stege: 各ステージごとのファイルを格納したフォルダ
+    tests: ユニットテストを行うフォルダ
+    docs: 設計書などのドキュメントを格納したフォルダ
+>>>>>>> 979df08 (ファイル整理)
  Function definition rules:
   - 関数を定義するクラスはFunctionを継承
     処理は継承した関数内で行う
@@ -23,4 +31,16 @@ Implementation Rules:
     
  Tests rules:
   - テストコードはクラスの追加ごとに記述する
+<<<<<<< HEAD
     テストの対象は作成したすべてのクラスとする(基底クラスは除く)
+=======
+    テストの対象は作成したすべてのクラスとする
+=======
+ file_name:
+  - dezero: dezero本体を構成するソースファイル
+    example: 実装テストを行うファイル
+    step: 各ステップのファイル(step1 -> ステップ1のソースコード)
+    tests: ユニットテストを行うファイル
+    
+>>>>>>> 9f447cf (ファイル整理)
+>>>>>>> 979df08 (ファイル整理)

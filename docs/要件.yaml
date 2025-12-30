@@ -7,7 +7,6 @@ FW_create_project:
 
  Development policy:
   - Difine-by-Runスタイルで進めること
-    各ステップで動作可能であること
     CNNやRNNなどの発展技術を使用すること
     
  Library used:
