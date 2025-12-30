@@ -1,0 +1,38 @@
+# [stsage2] 改修設計仕様書
+
+## 1. 改修の目的・背景
+- **背景**: [変数と関数内で循環参照の存在を確認しメモリリークの可能性があると考えたため]
+- **目的**: [weakrefライブラリを導入し変数と関数を弱参照でつなぎ直す]
+
+## 2. 変更内容一覧
+
+| クラス名 | 関数/メソッド名 | 変更の概要 |
+| :--- | :--- | :--- |
+| `Variable` | `backward` | 変数gysのリスト内表記outputを関数として実行するoutput()に変更 |
+| `Function` | `__call__` | self.outputsをリスト内表記に変更しweakref.ref(outputs)を記述|
+
+## 3. 詳細設計（Before & After）
+ロジックの変更前と変更後の対比
+
+|クラス名/行数 | Before | After |
+| :--- | :--- | :--- |
+| `Function`/64 | `self.outputs = outputs` | `self.outputs = [weakref.ref(output)for output in outputs]` |
+| `Variable`/39 | `gys = [output.grad for output in f.outputs]` | `gys = [output().grad for output in f.outputs]`|
+
+### 3.1 [Function]
+#### 変更前 (Before)
+- [関数と変数との間で循環参照が発生していた]
+
+#### 変更後 (After)
+- **データ構造**: `weakref` ライブラリを使用し弱参照に変える。
+- **格納形式**: self.outputsの格納方法を`[weakref.ref(outputs)for output in outputs]`に変更。
+
+## 4. 影響範囲と整合性
+この改修によって修正が必要になる関連箇所。
+- **関連1**: `Function`クラスの `self.outputs` をweak.refを使用したリスト内表記に変更する必要がある。
+- **関連2**: `Variable`クラスでの `output` の呼び出し方を関数呼び出し方式に変更する必要あり。
+
+## 5. テスト・検証項目
+改修が正しく行われたかをどう確認するか。
+- [x] 複雑な分岐を持つグラフ（add(x, x)など）の計算が正しく行われるか（動作確認）。
+- [x] 変数を使いまわして大きなテンソルを計算してもメモリ使用率が上がらないか。

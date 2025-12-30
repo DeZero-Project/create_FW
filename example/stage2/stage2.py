@@ -3,6 +3,7 @@ step11で行う改修型基底クラスの実装
 """
 import numpy as np
 import heapq
+import weakref
 class Variable:
     """
     Vriableクラスに与えられたデータの重みを取り出す仕様を追加
@@ -36,7 +37,7 @@ class Variable:
         add_func(self.creator)
         while funcs:
             gen, _id, f = heapq.heappop(funcs)
-            gys = [output.grad for output in f.outputs]
+            gys = [output().grad for output in f.outputs]
             gxs =  f.backward(*gys)
             if not isinstance(gxs, tuple):
                 gxs = (gxs,)
@@ -61,7 +62,7 @@ class Function(object):
         for output in outputs:
             output.set_creator(self)
         self.inputs = inputs
-        self.outputs = outputs
+        self.outputs = [weakref.ref(output)for output in outputs]
 
         return outputs if len(outputs) > 1 else outputs[0]
     
