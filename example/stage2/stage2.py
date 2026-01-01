@@ -9,15 +9,25 @@ class Variable:
     """
     Vriableクラスに与えられたデータの重みを取り出す仕様を追加
     """
-    def __init__(self, data):
+    def __init__(self, data, name=None):
         if data is not None:
             if not isinstance(data, np.ndarray):
                raise TypeError("{} is not supported".format(type(data)))
         self.data = data
         self.grad = None
         self.creator = None
+        self.name = name
         self.generation = 0
+
+    def __len__(self): 
+        return len(self.data)
     
+    def __repr__(self):
+        if self.data is None:
+            return 'Valiable(None)'
+        p = str(self.data).replace('\n', '\n' + '' * 9)
+        return 'Variable(' + p + ')'
+
     def set_creator(self, func):
         """
         対象の変数を作成した関数を保持する
@@ -54,7 +64,19 @@ class Variable:
                     y().grad = None
     def crearngrad(self):
         self.grad = None
-
+    
+    @property
+    def shape(self):
+        return self.data.shape
+    @property
+    def ndim(self):
+        return self.data.ndim
+    @property
+    def dtype(self):
+        return self.data.dtype
+    @property
+    def size(self):
+        return self.data.size
 class Function(object):
     def __call__(self, *inputs):
         xs = [x.data for x in inputs]
