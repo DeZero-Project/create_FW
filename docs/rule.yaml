@@ -4,8 +4,12 @@ Implementation Rules:
     example: 実装テストを行うフォルダ
     step: 各ステップごとのファイルを格納したフォルダ
     tests: ユニットテストを行うフォルダ
-    temp: 設計書のテンプレートを保管
-
+    docs: 
+      temp: 設計書のテンプレートを保管
+      design: 新規機能の設計書を保管
+      change: 既存機能の修正設計書を保管
+      test: test仕様書を保管
+      
  Function definition rules:
   - 関数を定義するクラスはFunctionを継承
     処理は継承した関数内で行う
