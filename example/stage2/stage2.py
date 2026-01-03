@@ -5,10 +5,10 @@ import numpy as np
 import heapq
 import weakref
 import contextlib
+
 class Variable:
-    """
-    Vriableクラスに与えられたデータの重みを取り出す仕様を追加
-    """
+    __array_prority__ = 200
+
     def __init__(self, data, name=None):
         if data is not None:
             if not isinstance(data, np.ndarray):
@@ -32,6 +32,12 @@ class Variable:
         return mul(self, other)
     
     def __add__(self, other):
+        return add(self, other)
+    
+    def __rmul__(self, other):
+        return mul(self, other)
+    
+    def __radd__(self, other):
         return add(self, other)
 
     def set_creator(self, func):
@@ -83,8 +89,10 @@ class Variable:
     @property
     def size(self):
         return self.data.size
+    
 class Function(object):
     def __call__(self, *inputs):
+        inputs = [as_variable(x) for x in inputs]
         xs = [x.data for x in inputs]
         ys = self.forward(*xs)
         if not isinstance(ys, tuple):
@@ -148,6 +156,10 @@ def as_array(x):
     if np.isscalar(x):
         return np.array(x)
     return x
+def as_variable(x):
+    if isinstance(x, Variable):
+        return x
+    return Variable(x)
 
 def square(x):
     f = Square()
@@ -156,8 +168,10 @@ def exp(x):
     f = Exp()
     return f(x)
 def add(x0, x1):
+    x1 = as_array(x1)
     return Add()(x0, x1)
 def mul(x0, x1):
+    x1 = as_array(x1)
     return Mul()(x0, x1)
 
 @contextlib.contextmanager

@@ -78,14 +78,35 @@ class TestVariable(unittest.TestCase):
         self.assertEqual(x1.grad, 3.0)
 
     def test_add_error(self):
-        with self.assertRaises(AttributeError):
+        with self.assertRaises(TypeError):
             x0 = Variable(np.array(3.0))
             x0 + 'a'
 
-    def test_add_error(self):
-        with self.assertRaises(AttributeError):
+    def test_mul_error(self):
+        with self.assertRaises(TypeError):
             x0 = Variable(np.array(3.0))
             x0 * 'a'
-    
+
+    def test_radd(self):
+        x = Variable(np.array(2.0))
+        y = 3.0 + x
+        self.assertEqual(y.data, 5.0)
+
+    def test_rmul(self):
+        x = Variable(np.array(3.0))
+        y = 3.0 * x
+        self.assertEqual(y.data, 9.0)
+
+    def test_radd_error(self):
+        with self.assertRaises(TypeError):
+            x0 = Variable(np.array(3.0))
+            'a'+ x0
+
+    def test_rmul_error(self):
+        with self.assertRaises(TypeError):
+            x0 = Variable(np.array(3.0))
+            'a' * x0
+            
+
 if __name__ == '__main__':
     unittest.main()
