@@ -13,9 +13,10 @@
 
 
 
-## 3. Factory Functions (square, exp, add, mul)
+## 3. Factory Functions (square, exp, add, mul, div, sub, neg)
 
-* **役割**: 各演算クラス（Square, Exp, Add, Mul）をインスタンス化して実行するラッパー関数
+* **役割**: 各演算クラス（Square, Exp, Add, Mul, Div, Sub, Pow. Neg）をインスタンス化して実行するラッパー関数
+
 
 ## 4. using_confif
 * **役割**: Configで設定するフラグをwith構文で設定するため前処理と後処理を定義
@@ -29,3 +30,17 @@
 ## 6. as_variale
 * **役割**: 引数に渡されたスカラー値をVariableインスタンスとして返す
 * **処理**: 引数で受け取った値がVariableインスタンスだった場合はそのまま返す
+
+## 7. rdiv
+* **役割**: Divクラスに渡す値の前後を入れ替えDivクラスに渡す`x0, x1 -> x1, x0`
+* **処理**: 渡された引数`x1`を`as_array` に渡して配列に変換した値をDivクラスに渡す
+
+## 8. sub
+* **役割**: Subクラスに渡す値の前後を入れ替えSubクラスに渡す`x0, x1 -> x1, x0`
+* **処理**: 渡された引数`x1`を`as_array` に渡して配列に変換した値をSubクラスに渡す
+
+## 9. pow
+* **役割**: Variableインスタンスを定数(int)で累乗する
+* **処理1**: 引数にVariableインスタンス`x` と定数`c`を受け取る
+* **処理2**: `c`をinitに渡し`x`をforwardに渡して返す(`Pow(c)(x)`)
+* **補足**: 累乗における右項はVariableインスタンス、左項が定数(int)として固定される仕様である

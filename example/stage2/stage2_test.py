@@ -5,5 +5,8 @@ import weakref
 # 動作実験
 x0 = Variable(np.array(5.0))
 
-y =  5.0 * x0
-print(y)
+y = x0 ** 2 
+y.backward()
+print(y.data)
+print(-x0)
+print(x0.grad)

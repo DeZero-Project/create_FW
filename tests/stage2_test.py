@@ -106,7 +106,55 @@ class TestVariable(unittest.TestCase):
         with self.assertRaises(TypeError):
             x0 = Variable(np.array(3.0))
             'a' * x0
-            
+    
+    def test_sub(self):
+        x = Variable(np.array(5.0))
+        y = x - 3.0
+        self.assertEqual(y.data, 2.0)
 
+    def test_rsub(self):
+        x = Variable(np.array(3.0))
+        y = 5.0 - x
+        self.assertEqual(y.data, 2.0)
+
+    def test_div(self):
+        x = Variable(np.array(6.0))
+        y = x / 3.0
+        self.assertEqual(y.data, 2.0)
+
+    def test_rdiv(self):
+        x = Variable(np.array(3.0))
+        y = 6.0 / x
+        self.assertEqual(y.data, 2.0)
+
+    def test_pow(self):
+        x = Variable(np.array(2.0))
+        y = x ** 2
+        self.assertEqual(y.data, 4.0)
+
+    def test_neg(self):
+        x = Variable(np.array(3.0))
+        y = -x
+        self.assertEqual(y.data, -3.0)
+
+    def test_sub_error(self):
+        with self.assertRaises(TypeError):
+            x0 = Variable(np.array(3.0))
+            'a'- x0
+
+    def test_div_error(self):
+        with self.assertRaises(TypeError):
+            x0 = Variable(np.array(3.0))
+            'a' / x0
+
+    def test_pow_error(self):
+        with self.assertRaises(TypeError):
+            x0 = Variable(np.array(3.0))
+            x0 ** 'a'
+
+    def test_neg_error(self):
+        with self.assertRaises(TypeError):
+            -'a' 
+    
 if __name__ == '__main__':
     unittest.main()
