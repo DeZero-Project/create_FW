@@ -1,5 +1,5 @@
 """
-stage2で使用するクラス群
+cupy未対応のコアロジック
 """
 import numpy as np
 import heapq
@@ -181,25 +181,6 @@ class Mul(Function):
         x0, x1 = self.inputs[0].data, self.inputs[1].data
         return gy * x1, gy * x0
 
-class Square(Function):
-    def forward(self, x):
-        y = x ** 2
-        return y
-    
-    def backward(self, gy):
-        x = self.inputs[0].data
-        gx = 2 * x * gy
-        return gx
-
-class Exp(Function):
-    def forward(self, x):
-        y = np.exp(x)
-        return y
-    
-    def backward(self, gy):
-        x = self.input.data
-        gx = np.exp(x) * gy
-        return gx
 
 class Config:
     enabled_backprop = True
@@ -213,11 +194,7 @@ def as_variable(x):
         return x
     return Variable(x)
 
-def square(x):
-    f = Square()
-    return f(x)
-def exp(x):
-    f = Exp()
+
     return f(x)
 def add(x0, x1):
     x1 = as_array(x1)

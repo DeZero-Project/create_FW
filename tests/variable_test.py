@@ -2,7 +2,7 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import unittest
 import numpy as np
-from example.stage2.stage2 import Variable
+from dezero.core_simple import Variable
 
 class TestVariable(unittest.TestCase):
     def test_init(self):
