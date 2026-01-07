@@ -8,13 +8,14 @@
 * **主な特徴**:
 * [特徴1：書籍を要件定義と考え設計を行ってから実装を行っている]
 * [特徴2：コピペはせず自身で考えながら進めている]
+* [特徴3：可搬性向上のためDockerを使用し環境構築を行う]
 
 
 
 ### 💡 設計ポリシー / Principles
 
 * **Quality First**: 全てのコア機能に対してユニットテストを網羅し、安定性を担保する。
-* **Keep It Simple**: 複雑な抽象化を避け、可読性とメンテナンス性を最優先する。
+* **Keep It Simple**: 複雑な構成を避け、可読性とメンテナンス性を最優先する。
 
 ## 📚 出典・リファレンス / Credits & References
 
@@ -57,25 +58,26 @@
 
 ### 基本構成
 
-* **[Module A]**: [役割の記述。例：データ入力のバリデーションを担う]
-* **[Module B]**: [役割の記述。例：ビジネスロジックの中核と状態管理]
+* **[core_sinple.py](https://github.com/1206-1204-777/create_FW/blob/stage2/dezero/core_simple.py)**: [cupy未対応のコアロジック]
+* **[variable_test.py](https://github.com/1206-1204-777/create_FW/blob/stage2/tests/variable_test.py)**: [core_simple内のVariableクラスに関するロジックテスト]
 
 ### プロセスフロー
 
-> **Note**: 設計の詳細は `/docs` フォルダ内の設計書を参照してください。
+> **Note**: 設計の詳細は [/docs](https://github.com/1206-1204-777/create_FW/tree/stage2/docs) フォルダ内の設計書を参照してください。
 
 ---
 
 ## 📂 リポジトリ構成 / Repository Structure
 
 ```text
-├── docs/               # 設計ドキュメント・仕様書
-├── src/                # ソースコード本体
+├──dezero/
 │   ├── core/           # 基盤ロジック
-│   └── api/            # インタフェース層
+├── docs/               # 設計ドキュメント・仕様書
+├── example/            # 動作確認用スクリプト
 ├── tests/              # テストコード
-├── scripts/            # ユーティリティ・自動化スクリプト
-├── docker-compose.yml  # インフラ定義
-└── README.md           # 本ファイル
-
+├── Dockerfile          # 環境構築用Dockerfile
+├── LICENSE             # 本リポジトリのライセンス
+├── README.md           # 本ファイル
+├── rule.yml            # 実装ルール
+└── run.sh              # 起動用スクリプト
 ```
