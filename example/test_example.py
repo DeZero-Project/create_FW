@@ -5,10 +5,14 @@ import cupy as np
 from dezero.core_simple import *
 from dezero.test_function import *
 import contextlib
-
+from dezero.util import *
 x0 = Variable(np.array(1.0))
 x1 = Variable(np.array(1.0))
 
-z = goldstein_price(x0, x1)
+z = matyas(x0, x1)
 z.backward()
-print(x0.grad, x1.grad)
+
+x0.name = 'x0'
+x1.name = 'x1'
+z.name = 'z'
+plot_dot_graph(z, verbose=False, to_file='matyas.png')

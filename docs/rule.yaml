@@ -9,6 +9,7 @@ Implementation Rules:
       change: 
        stage: 各ステージごとの修正設計書を格納したフォルダ
       test: test仕様書を保管
+      image: 可視化した計算グラフを格納
       
  Function definition rules:
   - 関数を定義するクラスはFunctionを継承
