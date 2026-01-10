@@ -36,5 +36,5 @@
 3.  関数の結果の結果(`output`)を`_dot_var`に渡しVariableインスタンスをdot形式に整形
 4. `add_func`でリスト化した関数を`pop()`を用いて１つずつ取り出し変数`txt`に足していく
 5. `for`文を使い`add_func`のリストから関数の入力値(`funcs.inputs`)を取り出し`txt`に加算する
-    * この際 `x.inputs` の`creator`がNoneではない場合`add_func`を使いリストに加える
+    * 5.2 この際 `x.inputs` の`creator`がNoneではない場合`add_func`を使いリストに加える
 6. `txt`の内容をdot形式に変更して返す(`digraph g {\n` + `txt` + `}`)
