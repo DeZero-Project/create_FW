@@ -13,3 +13,4 @@ y.backward()
 print(y.data)
 print(x.grad)
 
+plot_dot_graph(y, to_file='sin_graph.png')
