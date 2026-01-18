@@ -9,14 +9,11 @@ from dezero.util import *
 
 x0 = Variable(np.array(2.0))
 
-iters = 10
-for i in range(iters):
-    print(i, x0)
-    z = f(x0)
-    
-    x0.crearngrad()
-    z.backward(create_graph=True)
+y = f(x0)
+y.backward(create_graph=True)
+print(x0.grad)
 
-    x0.data -= x0.grad.data / gx2(x0.data)
-
-plot_dot_graph(z, to_file='newton.png')
+gx = x0.grad
+x0.crearngrad()
+gx.backward()
+print(x0.grad.data)
