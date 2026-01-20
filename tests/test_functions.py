@@ -3,7 +3,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import unittest
 import numpy as np
 from dezero.core_simple import *
-from dezero.test_function import *
+from dezero.function import *
 
 class TestSin(unittest.TestCase):
     def test_N01(self):
