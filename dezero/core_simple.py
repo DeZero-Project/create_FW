@@ -7,7 +7,7 @@ import weakref
 import contextlib
 import math
 class Variable:
-    __array_prority__ = 200
+    __array_priority__ = 200
 
     def __init__(self, data, name=None):
         if data is not None:
