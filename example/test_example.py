@@ -10,8 +10,10 @@ from dezero.function import *
 
 x0 = Variable(np.array(2.0))
 
-y = cos(x0)
+y = tanh(x0)
+print(y.data)
 y.backward(create_graph=True)
+
 for i in range(3):
     gx = x0.grad
     x0.crearngrad()
