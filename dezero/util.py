@@ -4,6 +4,7 @@
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import subprocess
+from dezero.core_simple import Variable
 
 def _dot_var(v, verbose=False):
     dot_var = '{}[label="{}", color=orange, style=filled]\n'
@@ -65,3 +66,15 @@ def plot_dot_graph(output, verbose=True, to_file='graph.png'):
     save_path = "/app/docs/images/" + to_file
     cmd = 'dot {} -T {} -o {}'.format(graph_path, extension, save_path)
     subprocess.run(cmd, shell=True)
+
+def numerical_diff(f, x, eps=1e-4):
+    """
+    :param f: インスタンス化した関数
+    :param x: 微分を求める変数
+    :param eps: 0除算防止用定数
+    """
+    x0 = Variable(x.data + eps)
+    x1 = Variable(x.data - eps)
+    y0 = f(x0)
+    y1 = f(x1)
+    return (y0.data - y1.data) / (2 * eps)
