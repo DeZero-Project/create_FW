@@ -14,5 +14,5 @@ numpy.tanhを使用した高階微分対応のcos関数
 ### `backward(self, gy)`
 
 * **引数**: 出力側から伝播した勾配
-* **計算**: `gx = gy * (-1 * self.output[0]()**2)`
+* **計算**: `gx = gy * (1 - self.output[0]()**2)`
 * **戻り値**: `gx`

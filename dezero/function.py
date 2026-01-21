@@ -45,7 +45,7 @@ class Tanh(Function):
         return y
     def backward(self, gy):
         x = self.outputs[0]()
-        gx = gy * (-1 * x**2)
+        gx = gy * (1 - x**2)
         return gx
     
 def square(x):
