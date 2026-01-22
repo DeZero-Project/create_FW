@@ -5,10 +5,23 @@ import cupy as np
 from dezero.core_simple import *
 from dezero.test_function import *
 import contextlib
+from dezero.util import *
+from dezero.function import *
 
-x0 = Variable(np.array(1.0))
-x1 = Variable(np.array(1.0))
+x0 = Variable(np.array(2.0))
 
-z = goldstein_price(x0, x1)
-z.backward()
-print(x0.grad, x1.grad)
+y = tanh(x0)
+x0.name = "x"
+y.name = "y"
+print(y.data)
+y.backward(create_graph=True)
+
+iters = 4
+for i in range(iters):
+    gx = x0.grad
+    x0.crearngrad()
+    gx.backward(create_graph=True)
+
+gx = x0.grad
+gx.name = "gx" + str(iters + 5)
+plot_dot_graph(gx,verbose=False, to_file='tanh.png')

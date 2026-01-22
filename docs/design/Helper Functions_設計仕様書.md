@@ -4,10 +4,17 @@
 
 * **役割**: スカラー値を `ndarray` に変換し、NumPyの仕様による型エラーを回避する
 
+<<<<<<< HEAD
 ## 2. Factory Functions (square, exp, add, mul, div, sub, neg)
 
 * **役割**: 各演算クラス（Square, Exp, Add, Mul, Div, Sub, Pow. Neg）をインスタンス化して実行するラッパー関数
 
+=======
+## 2. Factory Functions (square, exp, add, mul, div, sub, neg, sin, cos, tanh)
+
+* **役割**: 各演算クラス（Square, Exp, Add, Mul, Div, Sub, Pow. Neg, Sin, Cos, Tanh）をインスタンス化して実行するラッパー関数
+    * ラッパー関数は演算クラスと同じモジュールに配置される
+>>>>>>> stage3
 
 ## 3. using_confif
 * **役割**: Configで設定するフラグをwith構文で設定するため前処理と後処理を定義

@@ -67,16 +67,16 @@ class TestVariable(unittest.TestCase):
         x1 = Variable(np.array(2.0))
         y = x0 + x1
         y.backward()
-        self.assertEqual(x0.grad, 1.0)
-        self.assertEqual(x1.grad, 1.0)
+        self.assertEqual(x0.grad.data, 1.0)
+        self.assertEqual(x1.grad.data, 1.0)
 
     def test_mul_backward(self):
         x0 = Variable(np.array(3.0))
         x1 = Variable(np.array(2.0))
         y = x0 * x1
         y.backward()
-        self.assertEqual(x0.grad, 2.0)
-        self.assertEqual(x1.grad, 3.0)
+        self.assertEqual(x0.grad.data, 2.0)
+        self.assertEqual(x1.grad.data, 3.0)
 
     def test_add_error(self):
         with self.assertRaises(TypeError):

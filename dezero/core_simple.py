@@ -5,9 +5,9 @@ import numpy as np
 import heapq
 import weakref
 import contextlib
-
+import math
 class Variable:
-    __array_prority__ = 200
+    __array_priority__ = 200
 
     def __init__(self, data, name=None):
         if data is not None:
@@ -66,9 +66,9 @@ class Variable:
         self.creator = func
         self.generation = func.generation + 1
     
-    def backward(self, retain_grad=False):
+    def backward(self, retain_grad=False, create_graph=False):
         if self.grad is None:
-            self.grad = np.ones_like(self.data)
+            self.grad = Variable(np.ones_like(self.data))
         funcs = []
         seen_set = set()
         def add_func(f):
@@ -79,16 +79,17 @@ class Variable:
         while funcs:
             gen, _id, f = heapq.heappop(funcs)
             gys = [output().grad for output in f.outputs]
-            gxs =  f.backward(*gys)
-            if not isinstance(gxs, tuple):
-                gxs = (gxs,)
-            for x, gx in zip(f.inputs, gxs):
-                if x.grad is None:
-                    x.grad = gx
-                else:
-                    x.grad = x.grad + gx
-                if x.creator is not None:
-                    add_func(x.creator)
+            with using_config('enabled_backprop', create_graph):
+                gxs =  f.backward(*gys)
+                if not isinstance(gxs, tuple):
+                    gxs = (gxs,)
+                for x, gx in zip(f.inputs, gxs):
+                    if x.grad is None:
+                        x.grad = gx
+                    else:
+                        x.grad = x.grad + gx
+                    if x.creator is not None:
+                        add_func(x.creator)
             if not retain_grad:
                 for y in f.outputs:
                     y().grad = None
@@ -144,7 +145,7 @@ class Pow(Function):
         y = x ** self.c
         return y
     def backward(self, gy):
-        x = self.inputs[0].data
+        x = self.inputs[0]
         c = self.c
         gx = c * x ** (c - 1) * gy
         return gx
@@ -154,7 +155,7 @@ class Div(Function):
         y = x0 / x1
         return y
     def backward(self, gy):
-        x0, x1 = self.inputs[0].data, self.inputs[1].data
+        x0, x1 = self.inputs
         gx0 = gy / x0
         gx1 = gy * (-x0 / x1 ** 2)
         return gx0, gx1
@@ -178,7 +179,7 @@ class Mul(Function):
         y = x0 * x1
         return y
     def backward(self, gy):
-        x0, x1 = self.inputs[0].data, self.inputs[1].data
+        x0, x1 = self.inputs
         return gy * x1, gy * x0
 
 
@@ -195,7 +196,6 @@ def as_variable(x):
     return Variable(x)
 
 
-    return f(x)
 def add(x0, x1):
     x1 = as_array(x1)
     return Add()(x0, x1)
@@ -218,6 +218,7 @@ def rsub(x0, x1):
     return Sub()(x1, x0)
 def neg(x):
     return Neg()(x)
+
 @contextlib.contextmanager
 def using_config(name, value):
     old_value = getattr(Config, name)

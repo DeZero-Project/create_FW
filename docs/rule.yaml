@@ -7,8 +7,9 @@ Implementation Rules:
       temp: 設計書のテンプレートを保管
       design: 新規機能の設計書を保管
       change: 
-       stage: 各ステージごとの修正設計書を格納したフォルダ
+       core: コアロジックに関する修正設計書を格納したフォルダ
       test: test仕様書を保管
+      image: 可視化した計算グラフを格納
       
  Function definition rules:
   - 関数を定義するクラスはFunctionを継承
@@ -31,3 +32,5 @@ Implementation Rules:
     step: 各ステップのファイル(step1 -> ステップ1のソースコード)
     tests: ユニットテストを行うファイル
     
+branch rules:
+ - 各ステージにおける作業ブランチをmasterブランチへマージしたことを確認後に、当該作業ブランチの削除を行う

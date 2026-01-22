@@ -58,6 +58,7 @@
 
 * **[core_sinple.py](https://github.com/1206-1204-777/create_FW/blob/stage2/dezero/core_simple.py)**: [cupy未対応のコアロジック]
 * **[variable_test.py](https://github.com/1206-1204-777/create_FW/blob/stage2/tests/variable_test.py)**: [core_simple内のVariableクラスに関するロジックテスト]
+* **[util.py](https://github.com/1206-1204-777/create_FW/blob/stage3/dezero/util.py)**: [DeZeroで生成した計算グラフの可視化を行う補助モジュール]
 
 ### プロセスフロー
 
