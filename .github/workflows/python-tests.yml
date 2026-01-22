@@ -2,7 +2,7 @@ name: Python Test CI
 
 on:
   push:
-    branches: [ "stage3" ]
+    branches: [ "stage4" ]
   pull_request:
     branches: [ "main" ]
 
