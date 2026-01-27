@@ -11,41 +11,24 @@ class TestFunction(unittest.TestCase):
         x1 = Variable(np.array(1.0))
         z = sphere(x0, x1)
         z.backward()
-<<<<<<< HEAD
-        self.assertEqual(x0.grad, 2.0)
-        self.assertEqual(x1.grad, 2.0)
-=======
         self.assertEqual(x0.grad.data, 2.0)
         self.assertEqual(x1.grad.data, 2.0)
->>>>>>> stage3
 
     def test_matyas(self):
         x0 = Variable(np.array(1.0))
         x1 = Variable(np.array(1.0))
         z = matyas(x0, x1)
         z.backward()
-<<<<<<< HEAD
-        self.assertEqual(x0.grad, 0.040000000000000036)
-        self.assertEqual(x1.grad, 0.040000000000000036)
-
-    def test_matyas(self):
-=======
         self.assertEqual(x0.grad.data, 0.040000000000000036)
         self.assertEqual(x1.grad.data, 0.040000000000000036)
 
     def test_goldstein_price(self):
->>>>>>> stage3
         x0 = Variable(np.array(1.0))
         x1 = Variable(np.array(1.0))
         z = goldstein_price(x0, x1)
         z.backward()
-<<<<<<< HEAD
-        self.assertEqual(x0.grad, -5376.0)
-        self.assertEqual(x1.grad, 8064.0)
-=======
         self.assertEqual(x0.grad.data, -5376.0)
         self.assertEqual(x1.grad.data, 8064.0)
->>>>>>> stage3
 
     def test_sphere_error(self):
         with self.assertRaises(TypeError):
@@ -61,9 +44,6 @@ class TestFunction(unittest.TestCase):
         with self.assertRaises(TypeError):
             x0 = Variable(np.array(1.0))
             goldstein_price(x0, 'a')
-<<<<<<< HEAD
-
-=======
     
     def test_rosenbrock_minimum(self):
         x0 = Variable(np.array(1.0))
@@ -94,7 +74,7 @@ class TestFunction(unittest.TestCase):
         z = f(x)
         z.backward(create_graph=True)
         gx = x.grad
-        x.crearngrad()
+        x.clearngrad()
         gx.backward()
         self.assertEqual(x.grad.data, 44.0)
     
@@ -104,9 +84,8 @@ class TestFunction(unittest.TestCase):
             z = f(None)
             z.backward(create_graph=True)
             gx = x.grad
-            x.crearngrad()
+            x.clearngrad()
             gx.backward()
->>>>>>> stage3
 
 if __name__ == '__main__':
     unittest.main()
