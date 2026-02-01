@@ -109,3 +109,21 @@ class Sum(Function):
         return gx
 def sum(x, axis = None, keepdims = False):
     return Sum(axis=axis, keepdims=keepdims)(x)
+
+class BroadcastTo(Function):
+    def __init__(self, shape):
+        self.shape = shape
+    
+    def forward(self, x):
+        self.x_shape = x.shape
+        y = np.broadcast(x, self.shape)
+        return y
+    
+    def backward(self, gy):
+        gx = sum_to(gy, self.x_shape)
+        return gx
+def broadcast_to(x, shape):
+    if x.shape == shape:
+       return as_variable(x)
+    return BroadcastTo(shape)(x)
+
