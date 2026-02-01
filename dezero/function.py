@@ -1,6 +1,6 @@
 import numpy as np
 from dezero.core_simple import *
-
+from dezero import util
 class Square(Function):
     def forward(self, x):
         y = x ** 2
@@ -93,3 +93,19 @@ class Transpose(Function):
 
 def transpose(x, axes=None):
     return Transpose(axes)(x)
+
+class Sum(Function):
+    def __init__(self, axis, keepdims):
+        self.axis = axis
+        self.keepdims = keepdims
+    def forward(self, x):
+        self.x_shape = x.shape
+        y = x.sum(axis = self.axis, keepdims = self.keepdims)
+
+        return y
+    def backward(self, gy):
+        gy = util.reshape_sum_backward(gy, axis = self.axis, keepdims = self.keepdims)
+        gx = broadcast_to(gy, self.x_shape)
+        return gx
+def sum(x, axis = None, keepdims = False):
+    return Sum(axis=axis, keepdims=keepdims)(x)
