@@ -45,4 +45,4 @@ numpy.broadcast_toを用いて、渡された配列の形状を指定された�
 | :--- | :--- | :--- | :--- |
 | `gx` | `util.sum_to`関数を用いた総和を返す | 処理開始直後 |  | 
 
-1. **戻り値作成**: `gy = util.sum_to(gy, self.x_shape)`で総和を求め`gy`を返す
+1. **戻り値作成**: `gx = sum_to(gy, self.x_shape)`で総和を求め`g`を返す
