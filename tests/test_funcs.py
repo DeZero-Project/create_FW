@@ -49,6 +49,57 @@ class TestFunctions(unittest.TestCase):
         with self.assertRaises(TypeError):
             tanh('a')
 
+    def setUp(self):
+        self.x_data = np.array([[1, 2, 3], [4, 5, 6]])
+        self.x = Variable(self.x_data)
+
+    def test_sum_forward(self):
+        y = sum(self.x)
+        expected = np.sum(self.x_data)
+        self.assertTrue(np.allclose(y.data, expected))
+
+        y_axis = sum(self.x, axis=0)
+        expected_axis = np.sum(self.x_data, axis=0)
+        self.assertTrue(np.allclose(y_axis.data, expected_axis))
+
+    def test_sum_backward(self):
+        y = sum(self.x, axis=1, keepdims=True)
+        y.backward()
+
+        expected_gx = np.ones_like(self.x_data)
+        self.assertTrue(np.allclose(self.x.grad.data, expected_gx))
+
+    def test_broadcast_to_forward(self):
+        shape = (2, 3)
+        x_small = Variable(np.array([1, 2, 3]))
+        y = broadcast_to(x_small, shape)
+        
+        expected = np.broadcast_to(x_small.data, shape)
+        self.assertEqual(y.shape, shape)
+        self.assertTrue(np.allclose(y.data, expected))
+
+    def test_broadcast_to_backward(self):
+        x_small = Variable(np.array([1, 2, 3]))
+        y = broadcast_to(x_small, (2, 3))
+        y.backward()
+
+        expected_gx = np.array([2, 2, 2])
+        self.assertTrue(np.allclose(x_small.grad.data, expected_gx))
+
+    def test_sum_to_forward(self):
+        shape = (1, 3)
+        y = sum_to(self.x, shape)
+
+        expected = self.x_data.sum(axis=0, keepdims=True)
+        self.assertTrue(np.allclose(y.data, expected))
+
+    def test_sum_to_backward(self):
+        shape = (1, 3)
+        y = sum_to(self.x, shape)
+        y.backward()
+        
+        expected_gx = np.ones_like(self.x_data)
+        self.assertTrue(np.allclose(self.x.grad.data, expected_gx))
 
 if __name__ == '__main__':
     unittest.main()

@@ -104,7 +104,7 @@ class Sum(Function):
 
         return y
     def backward(self, gy):
-        gy = util.reshape_sum_backward(gy, axis = self.axis, keepdims = self.keepdims)
+        gy = util.reshape_sum_backward(gy,self.x_shape ,self.axis, self.keepdims)
         gx = broadcast_to(gy, self.x_shape)
         return gx
 def sum(x, axis = None, keepdims = False):
@@ -116,7 +116,7 @@ class BroadcastTo(Function):
     
     def forward(self, x):
         self.x_shape = x.shape
-        y = np.broadcast(x, self.shape)
+        y = np.broadcast_to(x, self.shape)
         return y
     
     def backward(self, gy):
