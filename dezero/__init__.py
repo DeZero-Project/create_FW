@@ -13,3 +13,5 @@ from dezero.function import transpose
 from dezero.function import reshape
 from dezero.function import square
 from dezero.function import exp
+from dezero.function import matmul
+from dezero.function import mean_squared_error
